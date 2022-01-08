@@ -7,8 +7,7 @@ import (
 )
 
 const (
-	SuccessStatus int = 0
-	FailStatus    int = 1
+	FailStatus int = 1
 )
 
 type InMemoryRequest struct {
@@ -30,6 +29,7 @@ type InMemoryMap struct {
 
 var customMap *InMemoryMap
 
+// handle request
 func buildInMemoryHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
@@ -40,19 +40,18 @@ func buildInMemoryHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.R
 	}
 }
 
+// InMemoryPostHandler create key value endpoint
 func InMemoryPostHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
 		var request InMemoryRequest
 		err := json.NewDecoder(r.Body).Decode(&request)
-
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(&InMemoryResponse{Code: FailStatus, Message: "invalid request"})
 			return
 		}
-
 		if ok, err := kvstore.Set(request.Key, request.Value); !ok {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(&InMemoryResponse{Code: FailStatus, Message: err.Error()})
@@ -67,6 +66,7 @@ func InMemoryPostHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Re
 	}
 }
 
+// InMemoryGetHandler get  key value endpoint
 func InMemoryGetHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
