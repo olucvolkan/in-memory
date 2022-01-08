@@ -1,5 +1,0 @@
-2022/01/08 21:53:49 main.go:29: Starting Server
-2022/01/08 21:54:17 main.go:74: [::1]:58088 POST /in-memory
-
-2022/01/08 21:54:27 main.go:74: [::1]:58088 GET /in-memory?key=fileKey2
-
