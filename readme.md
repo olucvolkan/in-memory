@@ -3,7 +3,7 @@
 ## How to access the app?
 
 ```
-curl --location --request POST 'https://afternoon-eyrie-09851.herokuapp.com/in-memory/' \
+curl --location --request POST 'https://vast-beyond-51726.herokuapp.com/in-memory/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
         "key": "testKey",
@@ -22,7 +22,7 @@ Dload  Upload   Total   Spent    Left  Speed
 ```
 
 ```
-curl --location --request GET 'https://afternoon-eyrie-09851.herokuapp.com/in-memory?key=active-tabs' | jq
+curl --location --request GET 'https://vast-beyond-51726.herokuapp.com/in-memory?key=testkey' | jq
 ```
 
 ```
