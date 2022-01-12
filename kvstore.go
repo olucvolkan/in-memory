@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 )
 
@@ -33,7 +32,6 @@ func (s InMemoryKVStore) Set(key string, value string) (bool, error) {
 }
 func writeFile(data map[string]string) {
 	file, _ := json.MarshalIndent(data, "", " ")
-	fmt.Println("test")
 	ioutil.WriteFile("test.json", file, 0644)
 }
 
