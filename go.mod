@@ -1,6 +1,6 @@
 module github.com/olucvolkan
 
-go 1.17
+go 1.13
 
 require (
 	github.com/go-chi/chi v1.5.4
