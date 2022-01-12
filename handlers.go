@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"sync"
 )
 
 const (
-	FailStatus int = 1
+	SuccessStatus int = 0
+	FailStatus    int = 1
 )
 
 type InMemoryRequest struct {
@@ -22,13 +22,6 @@ type InMemoryResponse struct {
 	Value   string `json:"value,omitempty"`
 }
 
-type InMemoryMap struct {
-	KeyValuePair map[string]string
-	Mutex        *sync.Mutex
-}
-
-var customMap *InMemoryMap
-
 // handle request
 func buildInMemoryHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -36,6 +29,8 @@ func buildInMemoryHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.R
 			InMemoryPostHandler(kvstore)(w, r)
 		} else if r.Method == "GET" {
 			InMemoryGetHandler(kvstore)(w, r)
+		} else if r.Method == "DELETE" {
+			InMemoryFlushAllHandler(kvstore)(w, r)
 		}
 	}
 }
@@ -62,6 +57,25 @@ func InMemoryPostHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Re
 		json.NewEncoder(w).Encode(&InMemoryResponse{
 			Key:   request.Key,
 			Value: request.Value,
+		})
+	}
+}
+
+// InMemoryFlushAllHandler flush all in-memory values
+func InMemoryFlushAllHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, err := kvstore.FlushAll()
+		if err != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{
+				"code": FailStatus,
+				"msg":  "Failed flush data ",
+			})
+		}
+		// Encode results
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"code": SuccessStatus,
+			"msg":  "Removed All Data",
 		})
 	}
 }

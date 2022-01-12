@@ -9,6 +9,7 @@ import (
 type KVStore interface {
 	Get(key string) (string, error)
 	Set(key string, value string) (bool, error)
+	FlushAll() (bool, error)
 }
 
 type InMemoryKVStore struct {
@@ -26,6 +27,17 @@ func (s InMemoryKVStore) Get(key string) (string, error) {
 
 func (s InMemoryKVStore) Set(key string, value string) (bool, error) {
 	s.data[key] = value
+	file, _ := json.MarshalIndent(s.data, "", " ")
+
+	_ = ioutil.WriteFile("test.json", file, 0644)
+
+	return true, nil
+}
+
+func (s InMemoryKVStore) FlushAll() (bool, error) {
+	for k := range s.data {
+		delete(s.data, k)
+	}
 	file, _ := json.MarshalIndent(s.data, "", " ")
 
 	_ = ioutil.WriteFile("test.json", file, 0644)

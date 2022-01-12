@@ -16,11 +16,8 @@ type Config struct {
 
 func main() {
 	config := newConfig()
-	logPath := "development.log"
 	kvstore := NewInMemoryKVStore()
 	kvstore = addFileData(kvstore)
-
-	openLogFile(logPath)
 
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
@@ -74,16 +71,4 @@ func logRequest(handler http.Handler) http.Handler {
 		log.Printf("%s %s %s\n\n", r.RemoteAddr, r.Method, r.URL)
 		handler.ServeHTTP(w, r)
 	})
-}
-
-func openLogFile(logfile string) {
-	if logfile != "" {
-		lf, err := os.OpenFile(logfile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0640)
-
-		if err != nil {
-			log.Fatal("OpenLogfile: os.OpenFile:", err)
-		}
-
-		log.SetOutput(lf)
-	}
 }
