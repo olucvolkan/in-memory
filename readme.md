@@ -35,6 +35,20 @@ curl --location --request GET 'https://vast-beyond-51726.herokuapp.com/in-memory
 }
 ```
 
+```
+curl --location --request DELETE 'https://vast-beyond-51726.herokuapp.com/in-memory' \
+--header 'Content-Type: application/json'  | jq
+```
+```
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+Dload  Upload   Total   Spent    Left  Speed
+100    36  100    36    0     0     56      0 --:--:-- --:--:-- --:--:--    58
+{
+"code": 0,
+"msg": "Removed All Data"
+}
+```
+
 ## How to run locally
 
 ```
