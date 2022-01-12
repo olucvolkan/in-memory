@@ -60,3 +60,7 @@ Dload  Upload   Total   Spent    Left  Speed
 ```
  go test -v
 ```
+
+# Demo-Preview
+
+![Random GIF](./images/swagger-ui.png)

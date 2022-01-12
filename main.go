@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	_ "github.com/olucvolkan/docs"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -14,6 +16,20 @@ type Config struct {
 	Port int
 }
 
+// @title           Swagger Example API
+// @version         1.0
+// @description     This is a sample server celler server.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
+// @BasePath  /
 func main() {
 	config := newConfig()
 	kvstore := NewInMemoryKVStore()
@@ -22,10 +38,13 @@ func main() {
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
 	http.HandleFunc("/in-memory", buildInMemoryHandler(kvstore))
+	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 
 	log.Println("Starting Server")
 	e := http.ListenAndServe(fmt.Sprintf(":%d", config.Port), logRequest(http.DefaultServeMux))
+
 	log.Fatal(e)
+
 }
 
 // addFileData append json file data in store

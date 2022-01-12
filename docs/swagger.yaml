@@ -1,0 +1,66 @@
+basePath: /
+definitions:
+  main.InMemoryPostRequest:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /in-memory:
+    delete:
+      consumes:
+      - application/json
+      description: delete in memory records
+      produces:
+      - application/json
+      responses: {}
+      summary: delete in memory records
+      tags:
+      - inMemory
+    get:
+      consumes:
+      - application/json
+      description: list in memory records
+      parameters:
+      - in: query
+        name: key
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: list in memory records
+      tags:
+      - inMemory
+    post:
+      consumes:
+      - application/json
+      description: create in memory record
+      parameters:
+      - description: in memory info
+        in: body
+        name: tasks
+        required: true
+        schema:
+          $ref: '#/definitions/main.InMemoryPostRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: create in memory record
+      tags:
+      - inMemory
+swagger: "2.0"

@@ -10,9 +10,12 @@ const (
 	FailStatus    int = 1
 )
 
-type InMemoryRequest struct {
+type InMemoryPostRequest struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
+}
+type InMemoryGetRequest struct {
+	Key string `json:"key"`
 }
 
 type InMemoryResponse struct {
@@ -36,11 +39,19 @@ func buildInMemoryHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.R
 }
 
 // InMemoryPostHandler create key value endpoint
+// PostInMemory godoc
+// @Summary create in memory record
+// @Description create in memory record
+// @Tags inMemory
+// @Param tasks body InMemoryPostRequest true "in memory info"
+// @Accept  json
+// @Produce  json
+// @Router /in-memory [post]
 func InMemoryPostHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var request InMemoryRequest
+		var request InMemoryPostRequest
 		err := json.NewDecoder(r.Body).Decode(&request)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -62,6 +73,13 @@ func InMemoryPostHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Re
 }
 
 // InMemoryFlushAllHandler flush all in-memory values
+// DeleteInMemory godoc
+// @Summary delete in memory records
+// @Description delete in memory records
+// @Tags inMemory
+// @Accept  json
+// @Produce  json
+// @Router /in-memory [delete]
 func InMemoryFlushAllHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -81,6 +99,14 @@ func InMemoryFlushAllHandler(kvstore KVStore) func(w http.ResponseWriter, r *htt
 }
 
 // InMemoryGetHandler get  key value endpoint
+// GetInMemory godoc
+// @Summary list in memory records
+// @Description list in memory records
+// @Tags inMemory
+// @Accept  json
+// @Param tasks query InMemoryGetRequest true "in memory info"
+// @Produce  json
+// @Router /in-memory [get]
 func InMemoryGetHandler(kvstore KVStore) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
