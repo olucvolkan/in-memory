@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/swaggo/http-swagger v1.1.2
-	github.com/swaggo/swag v1.7.8
+	github.com/swaggo/swag v1.7.7
 )
 
 require (
