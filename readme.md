@@ -64,3 +64,7 @@ Dload  Upload   Total   Spent    Left  Speed
 # Demo-Preview
 
 ![Random GIF](./images/swagger-ui.png)
+
+```
+ https://vast-beyond-51726.herokuapp.com/swagger/index.html#/
+```
